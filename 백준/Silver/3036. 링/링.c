@@ -32,9 +32,7 @@ int main() {
             }
     
         }
-        a = arr[0];
-        b = arr[i];
         
-        printf("%d/%d\n", a / divider, b / divider);
+        printf("%d/%d\n", a, b);
     }
 }
