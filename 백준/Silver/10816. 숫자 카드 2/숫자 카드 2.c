@@ -47,6 +47,27 @@ int upper_bound_binary_search(int n, int* arr, int from, int to, int len) {
     }
 }
 
+int binary_search(int n, int* arr, int from, int to, int len) {
+    if (from > to || from >= len || to < 0) {
+        return -1;
+    }
+    
+    int idx = (from + to) / 2;
+    
+    if (arr[idx] < n) {
+        return binary_search(n, arr, idx + 1, to, len);
+    } else if (arr[idx] > n) {
+        return binary_search(n, arr, from, idx - 1, len);
+    } else {
+        int lower_bound = lower_bound_binary_search(n, arr, 0, idx - 1, len);
+        lower_bound = (lower_bound == -1) ? idx : lower_bound;
+        int upper_bound = upper_bound_binary_search(n, arr, idx + 1, len - 1, len);
+        upper_bound = (upper_bound == -1) ? idx : upper_bound;
+        
+        return upper_bound - lower_bound + 1;
+    }
+}
+
 int main() {
     int N;
     
@@ -73,13 +94,12 @@ int main() {
         
         scanf("%d", &temp);
         
-        int lower_bound = lower_bound_binary_search(temp, arr, 0, N - 1, N);
+        int diff = binary_search(temp, arr, 0, N - 1, N);
         
-        if (lower_bound == -1) {
-            printf("0\n");
+        if (diff == -1) {
+            printf("0 ");
         } else {
-            int upper_bound = upper_bound_binary_search(temp, arr, 0, N - 1, N);
-            printf("%d\n", upper_bound - lower_bound + 1);
+            printf("%d ", diff);
         }
     }
 }
